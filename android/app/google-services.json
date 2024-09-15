@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "150739470507",
+    "project_id": "tasawak-57",
+    "storage_bucket": "tasawak-57.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150739470507:android:57217d1db3408adc5b0fee",
+        "android_client_info": {
+          "package_name": "com.sherif.tasawak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPn779hl4AKklk9Jr3sIP96O096IkGFrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
