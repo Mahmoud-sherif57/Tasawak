@@ -5,6 +5,8 @@ class BaseModel {
   final num price;
   final num review;
   final num star;
+  late bool isFavourite;
+  late bool isOnTheCart;
   num? value;
 
   BaseModel({
@@ -15,5 +17,7 @@ class BaseModel {
     required this.review,
     required this.star,
     required this.value,
+     this.isFavourite =false,
+     this.isOnTheCart =false,
   });
 }

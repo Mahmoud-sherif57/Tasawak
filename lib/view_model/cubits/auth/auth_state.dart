@@ -54,3 +54,5 @@ final class SigningOutErrorState extends AuthState {
 /// -------------------toggle password States----------------------->
 
 final class TogglePasswordState extends AuthState {}
+
+final class PickImageState extends AuthState {}

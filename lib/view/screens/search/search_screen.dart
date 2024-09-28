@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:tasawak/model/categories/base_model.dart';
 import 'package:tasawak/view/screens/detailsScreen/details_screen.dart';
 import 'package:tasawak/view_model/cubits/categories/category_cubit.dart';
-import 'package:tasawak/view_model/data/local/category-data.dart';
+import 'package:tasawak/view_model/data/local/category_data.dart';
 import 'package:tasawak/view_model/utils/app_assets.dart';
 import 'package:tasawak/view_model/utils/app_colors.dart';
 import 'package:tasawak/view_model/utils/app_functions.dart';
-import 'package:tasawak/view_model/utils/reusable_widgets/reusable_richText.dart';
+import 'package:tasawak/view_model/utils/reusable_widgets/reusable_rich_text.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -29,9 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   onSearchFunction(String search) {
     setState(() {
-      itemsOnSearch = mainListData
-          .where((element) => element.name.toLowerCase().contains(search))
-          .toList();
+      itemsOnSearch = mainListData.where((element) => element.name.toLowerCase().contains(search)).toList();
     });
   }
 
@@ -54,9 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 ///-------------start the searchField section------------>
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: size.height * 0.01,
-                      horizontal: size.width * 0.03),
+                  padding: EdgeInsets.symmetric(vertical: size.height * 0.01, horizontal: size.width * 0.03),
                   child: SizedBox(
                     width: size.width,
                     height: size.height * 0.06,
@@ -64,8 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: _controller,
                       onChanged: (value) => onSearchFunction(value),
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         fillColor: AppColors.offwhite,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -76,8 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Colors.lightGreen, width: 2),
+                          borderSide: const BorderSide(color: Colors.lightGreen, width: 2),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         suffixIcon: IconButton(
@@ -92,8 +86,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           icon: const Icon(Icons.close),
                         ),
                         hintText: 'e.g.sweat shirt',
-                        hintStyle: theme.titleMedium
-                            ?.copyWith(color: AppColors.darkGray),
+                        hintStyle: theme.titleMedium?.copyWith(color: AppColors.darkGray),
                       ),
                     ),
                   ),
@@ -102,16 +95,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 SizedBox(
                   height: size.height * 0.001,
                 ),
-                ///-------------start the items on search section------------->
+
+                ///-------------start showing the items on search section------------->
                 Expanded(
                   // flex: 8,
                   child: itemsOnSearch.isNotEmpty
                       ? GridView.builder(
-                          physics:  const BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           itemCount: itemsOnSearch.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 0.55, crossAxisCount: 2),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 0.55, crossAxisCount: 2),
                           itemBuilder: (context, index) {
                             BaseModel current = itemsOnSearch[index];
                             return InkWell(
@@ -138,8 +131,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         height: size.height * 0.28,
                                         margin: const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
+                                          borderRadius: BorderRadius.circular(15),
                                           image: DecorationImage(
                                             fit: BoxFit.cover,
                                             image: AssetImage(current.imageUrl),
@@ -164,6 +156,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         style1: theme.titleLarge,
                                         style2: theme.titleLarge?.copyWith(color: AppColors.primaryColor)),
                                   ),
+
                                   ///---------addToCartIcon---------->
                                   Positioned(
                                     bottom: size.height * 0.05,
@@ -171,16 +164,16 @@ class _SearchScreenState extends State<SearchScreen> {
                                     child: Container(
                                       height: 30,
                                       width: 35,
-                                      decoration: const BoxDecoration(
-                                        color: AppColors.primaryColor,
-                                        borderRadius: BorderRadius.only(
+                                      decoration: BoxDecoration(
+                                        color: current.isOnTheCart ? AppColors.green : AppColors.gray,
+                                        borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(10),
                                           bottomRight: Radius.circular(10),
                                         ),
                                       ),
                                       child: IconButton(
                                         onPressed: () {
-                                          categoryCubit.addToCart(current, context);
+                                          categoryCubit.toggleCart(current, context);
                                         },
                                         icon: const Icon(
                                           Icons.add_shopping_cart_sharp,
@@ -190,20 +183,20 @@ class _SearchScreenState extends State<SearchScreen> {
                                       ),
                                     ),
                                   ),
+
                                   ///---------addToFavouriteIcon---------->
                                   Positioned(
                                     top: size.height * 0.04,
-                                    left: size.width*0.05,
+                                    left: size.width * 0.05,
                                     child: CircleAvatar(
                                       radius: 17,
                                       backgroundColor: AppColors.offwhite,
                                       child: Center(
                                         child: IconButton(
-                                            onPressed: () {
-                                              categoryCubit.addToFavourite(current, context);
-                                            },
-                                            icon: const Icon(
-                                                Icons.favorite_outline_sharp),
+                                          onPressed: () {
+                                            categoryCubit.toggleFavourite(current, context);
+                                          },
+                                          icon: current.isFavourite ? favouriteIcon : notFavouriteIcon,
                                           iconSize: 20,
                                         ),
                                       ),
@@ -214,7 +207,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             );
                           },
                         )
-                  ///-------------start the NotFound on search section-------->
+
+                      ///-------------start the NotFound on search section-------->
                       : ListView(
                           children: [
                             FadeInUp(
@@ -244,3 +238,17 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
+
+var notFavouriteIcon = const Icon(Icons.favorite_outline_sharp);
+var favouriteIcon = const Icon(
+  Icons.favorite,
+  color: AppColors.red,
+);
+var notOnTheCartIcon = const Icon(
+  Icons.add_shopping_cart_sharp,
+  color: AppColors.primaryColor,
+);
+var onTheCartIcon = const Icon(
+  Icons.add_shopping_cart_sharp,
+  color: AppColors.green,
+);

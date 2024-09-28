@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasawak/view_model/cubits/categories/category_cubit.dart';
 import 'package:tasawak/view_model/cubits/categories/category_state.dart';
-import 'package:tasawak/view_model/data/local/category-data.dart';
+import 'package:tasawak/view_model/data/local/category_data.dart';
 import 'package:tasawak/view_model/utils/app_assets.dart';
 import 'package:tasawak/view_model/utils/app_colors.dart';
 import 'package:tasawak/view_model/utils/reusable_widgets/reusable_button.dart';
-import 'package:tasawak/view_model/utils/reusable_widgets/reusable_richText.dart';
+import 'package:tasawak/view_model/utils/reusable_widgets/reusable_rich_text.dart';
 import 'package:tasawak/view_model/utils/reusable_widgets/reusable_row_for_cart.dart';
+
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -22,6 +23,7 @@ class CartScreen extends StatelessWidget {
     var theme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: AppColors.offwhite,
+
       // appBar: AppBar(
       //   surfaceTintColor: Colors.transparent,
       //   backgroundColor: Colors.transparent,
@@ -31,7 +33,7 @@ class CartScreen extends StatelessWidget {
       //     iconSize: 30,
       //     color: AppColors.primaryColor2,
       //     onPressed: () {
-      //       AppFunctions.navigateTo(context, const WrapperHomeScreen());
+      //       AppFunctions.navigateTo(context, const WrapperHomeScreen2());
       //     },
       //     icon: const Icon(
       //       Icons.home_outlined,
@@ -56,11 +58,19 @@ class CartScreen extends StatelessWidget {
         height: size.height,
         child: BlocConsumer<CategoryCubit, CategoryState>(
           listener: (context, state) {
-            if (state is DeletedSuccessfullyState) {
+            if (state is RemovedFromTheCartState) {
               const AdvanceSnackBar(
                 bgColor: AppColors.green,
-                duration: Duration(seconds: 2),
-                message: "Successfully removed from the cart",
+                duration: Duration(seconds: 1),
+                message: "Removed from the cart",
+                mode: Mode.ADVANCE,
+              ).show(context);
+            }
+            else if (state is AddedToTheCartState) {
+              const AdvanceSnackBar(
+                bgColor: AppColors.green,
+                duration: Duration(seconds: 1),
+                message: "Successfully added to the cart",
                 mode: Mode.ADVANCE,
               ).show(context);
             }
@@ -129,7 +139,7 @@ class CartScreen extends StatelessWidget {
                                                 ),
                                                 IconButton(
                                                     onPressed: () {
-                                                      categoryCubit.deleteFromCart(current);
+                                                      categoryCubit.toggleCart(current,context);
                                                     },
                                                     icon: const Icon(Icons.close))
                                               ]),
@@ -152,7 +162,7 @@ class CartScreen extends StatelessWidget {
                                             children: [
                                               InkWell(
                                                 onTap: () {
-                                                  CategoryCubit.get(context).decreaseQuantity(current);
+                                                  CategoryCubit.get(context).decreaseQuantity(current,context);
                                                 },
                                                 child: Container(
                                                   margin: const EdgeInsets.all(4.0),
@@ -290,14 +300,8 @@ class CartScreen extends StatelessWidget {
                               child: ReUsableButton(
                                   text: "Buy now",
                                   onPressed: () {
-                                    // FirebaseAuth.instance
-                                    //     .authStateChanges()
-                                    //     .listen((User? user) {
-                                    //   if (user != null) {
-                                    //     print(user.email);
-                                    //   }
-                                    // });
-                                    // AppFunctions.navigateTo(context, const WrapperHomeScreen());
+
+
                                   }),
                             ),
                           ),

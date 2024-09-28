@@ -18,7 +18,6 @@ class SettingMenuTileWidget extends StatelessWidget {
   final Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     var theme = Theme.of(context).textTheme;
     return ListTile(
       title: Text(

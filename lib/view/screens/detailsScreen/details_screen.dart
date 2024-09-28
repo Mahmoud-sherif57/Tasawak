@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasawak/model/categories/base_model.dart';
 import 'package:tasawak/view_model/cubits/categories/category_cubit.dart';
-import 'package:tasawak/view_model/data/local/category-data.dart';
+import 'package:tasawak/view_model/data/local/category_data.dart';
 import 'package:tasawak/view_model/utils/app_colors.dart';
 import 'package:tasawak/view_model/utils/app_functions.dart';
 import 'package:tasawak/view_model/utils/reusable_widgets/reusable_button.dart';
-import 'package:tasawak/view_model/utils/reusable_widgets/reusable_richText.dart';
+import 'package:tasawak/view_model/utils/reusable_widgets/reusable_rich_text.dart';
 
 import '../../../view_model/cubits/categories/category_state.dart';
 
@@ -48,10 +48,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  categoryCubit.addToFavourite(current, context);
                   categoryCubit.toggleFavourite(current, context);
                 },
-                icon: categoryCubit.favourite ? favouriteIcon : notFavouriteIcon,
+                icon: current.isFavourite ? favouriteIcon : notFavouriteIcon,
               )
             ],
             leading: IconButton(
@@ -275,9 +274,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           delay: const Duration(milliseconds: 600),
                           child: Center(
                             child: ReUsableButton(
-                              text: "add to cart",
+                              text: current.isOnTheCart? " In the cart": "add to cart"  ,
                               onPressed: () {
-                                categoryCubit.addToCart(current, context);
+                                categoryCubit.toggleCart(current, context);
                               },
                             ),
                           ),
@@ -301,3 +300,6 @@ var favouriteIcon = const Icon(
   Icons.favorite,
   color: AppColors.red,
 );
+
+
+

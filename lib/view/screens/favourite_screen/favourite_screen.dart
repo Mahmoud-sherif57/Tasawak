@@ -1,13 +1,11 @@
-import 'package:advance_notification/advance_notification.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasawak/view_model/cubits/categories/category_cubit.dart';
 import 'package:tasawak/view_model/cubits/categories/category_state.dart';
-import 'package:tasawak/view_model/data/local/category-data.dart';
 import 'package:tasawak/view_model/utils/app_assets.dart';
 import 'package:tasawak/view_model/utils/app_colors.dart';
-import 'package:tasawak/view_model/utils/reusable_widgets/reusable_richText.dart';
+import 'package:tasawak/view_model/utils/reusable_widgets/reusable_rich_text.dart';
 import '../../../model/categories/base_model.dart';
 import '../../../view_model/utils/app_functions.dart';
 import '../detailsScreen/details_screen.dart';
@@ -27,14 +25,14 @@ class FavouriteScreen extends StatelessWidget {
         height: size.height,
         child: BlocConsumer<CategoryCubit, CategoryState>(
           listener: (context, state) {
-            if (state is DeletedSuccessfullyState) {
-              const AdvanceSnackBar(
-                bgColor: AppColors.green,
-                duration: Duration(seconds: 2),
-                message: "Successfully removed from the favourite",
-                mode: Mode.ADVANCE,
-              ).show(context);
-            }
+            // if (state is DeletedSuccessfullyState) {
+            //   const AdvanceSnackBar(
+            //     bgColor: AppColors.green,
+            //     duration: Duration(seconds: 2),
+            //     message: "Successfully removed from favourite",
+            //     mode: Mode.ADVANCE,
+            //   ).show(context);
+            // }
           },
           builder: (context, state) {
             return Stack(
@@ -44,7 +42,6 @@ class FavouriteScreen extends StatelessWidget {
                   height: size.height ,
                   child: categoryCubit.itemsOnFavourite.isNotEmpty
                       ?
-
                       /// List Of favourite is not empty
                       GridView.builder(
                           physics: const BouncingScrollPhysics(),
@@ -58,7 +55,7 @@ class FavouriteScreen extends StatelessWidget {
                                 AppFunctions.navigateTo(
                                   context,
                                   DetailsScreen(
-                                    data: mainListData[index],
+                                    data: current,
                                     isCameFromMostPopularPart: false,
                                   ),
                                 );
@@ -108,16 +105,16 @@ class FavouriteScreen extends StatelessWidget {
                                     child: Container(
                                       height: 30,
                                       width: 35,
-                                      decoration: const BoxDecoration(
-                                        color: AppColors.primaryColor,
-                                        borderRadius: BorderRadius.only(
+                                      decoration:  BoxDecoration(
+                                        color: current.isOnTheCart ? AppColors.green : AppColors.gray,
+                                        borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(10),
                                           bottomRight: Radius.circular(10),
                                         ),
                                       ),
                                       child: IconButton(
                                         onPressed: () {
-                                          categoryCubit.addToCart(current, context);
+                                          categoryCubit.toggleCart(current, context);
                                         },
                                         icon: const Icon(
                                           Icons.add_shopping_cart_sharp,
@@ -137,13 +134,12 @@ class FavouriteScreen extends StatelessWidget {
                                       child: Center(
                                         child: IconButton(
                                           onPressed: () {
-                                            categoryCubit.addToFavourite(current, context);
                                             categoryCubit.toggleFavourite(current, context);
                                           },
                                           icon: SizedBox(
                                             width: 20,
                                             height: 20,
-                                            child: categoryCubit.favourite ? favouriteIcon : notFavouriteIcon,
+                                            child: current.isFavourite ? favouriteIcon : notFavouriteIcon,
                                           ),
                                           iconSize: 20,
                                         ),

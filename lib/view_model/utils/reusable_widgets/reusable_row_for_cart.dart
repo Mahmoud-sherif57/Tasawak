@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasawak/view_model/utils/reusable_widgets/reusable_richText.dart';
+import 'package:tasawak/view_model/utils/reusable_widgets/reusable_rich_text.dart';
 
 import '../app_colors.dart';
 

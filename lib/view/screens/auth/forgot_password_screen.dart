@@ -1,11 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasawak/view/screens/auth/login_screen.dart';
 import 'package:tasawak/view_model/cubits/auth/auth_cubit.dart';
 import 'package:tasawak/view_model/cubits/auth/auth_state.dart';
 import 'package:tasawak/view_model/utils/app_colors.dart';
-import 'package:tasawak/view_model/utils/app_functions.dart';
 import 'package:tasawak/view_model/utils/reusable_widgets/reusabel_auth_button.dart';
 import 'package:tasawak/view_model/utils/reusable_widgets/reusable_text_form_field.dart';
 

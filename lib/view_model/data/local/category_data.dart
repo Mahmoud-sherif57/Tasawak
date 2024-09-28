@@ -17,7 +17,6 @@ List<CategoriesModel> categoriesData = [
   CategoriesModel(imageUrl: CategoriesKeys.blueShoes, title: "Blue shoes"),
 ];
 
-
 List<BaseModel> mainListData = [
   BaseModel(
     imageUrl: CategoriesKeys.sweatShirt,
@@ -47,7 +46,7 @@ List<BaseModel> mainListData = [
     value: 1,
   ),
   BaseModel(
-    imageUrl: CategoriesKeys.sportsShoes ,
+    imageUrl: CategoriesKeys.sportsShoes,
     name: "sport shoes",
     price: 188.99,
     review: 4.6,
@@ -55,7 +54,6 @@ List<BaseModel> mainListData = [
     id: 3,
     value: 1,
   ),
-
   BaseModel(
     imageUrl: CategoriesKeys.hat,
     name: "hat",

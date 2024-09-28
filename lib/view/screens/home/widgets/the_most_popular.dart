@@ -1,12 +1,13 @@
+import 'package:advance_notification/advance_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../model/categories/base_model.dart';
 import '../../../../view_model/cubits/categories/category_cubit.dart';
 import '../../../../view_model/cubits/categories/category_state.dart';
-import '../../../../view_model/data/local/category-data.dart';
+import '../../../../view_model/data/local/category_data.dart';
 import '../../../../view_model/utils/app_colors.dart';
 import '../../../../view_model/utils/app_functions.dart';
-import '../../../../view_model/utils/reusable_widgets/reusable_richText.dart';
+import '../../../../view_model/utils/reusable_widgets/reusable_rich_text.dart';
 import '../../detailsScreen/details_screen.dart';
 
 class TheMostPopularWidget extends StatelessWidget {
@@ -23,7 +24,39 @@ class TheMostPopularWidget extends StatelessWidget {
       // height: size.height ,    //0.44
       child: BlocConsumer<CategoryCubit, CategoryState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is AddedToFavoritesState) {
+            const AdvanceSnackBar(
+              bgColor: AppColors.green,
+              duration: Duration(seconds: 1),
+              message: " Successfully added to the Favourite",
+              mode: Mode.ADVANCE,
+            ).show(context);
+          }
+          else if (state is RemovedFromFavoritesState) {
+            const AdvanceSnackBar(
+              bgColor: AppColors.green,
+              duration: Duration(seconds: 1),
+              message: "Removed from the Favourite",
+              mode: Mode.ADVANCE,
+            ).show(context);
+          }
+          else if (state is RemovedFromTheCartState){
+            const AdvanceSnackBar(
+              bgColor: AppColors.green,
+              duration: Duration(seconds: 1),
+              message: "Removed from the the cart",
+              mode: Mode.ADVANCE,
+            ).show(context);
+          }
+          else if (state is AddedToTheCartState){
+            const AdvanceSnackBar(
+              bgColor: AppColors.green,
+              duration: Duration(seconds: 1),
+              message: "Successfully added to the cart",
+              mode: Mode.ADVANCE,
+            ).show(context);
+          }
+
         },
         builder: (context, state) {
           return GridView.builder(
@@ -74,13 +107,18 @@ class TheMostPopularWidget extends StatelessWidget {
                         child: Center(
                           child: IconButton(
                             onPressed: () {
+                              // this state is to show loading indicator when you press the icon ,
+                              // if(state is FavouriteLoadingState ){
+                              //   if(state.id == current.id.toString()){
+                              //   }
+                              // }
                               // categoryCubit.addToFavourite(current, context);
-                              categoryCubit.toggleFavourite( current, context);
+                              categoryCubit.toggleFavourite(current, context);
                             },
                             icon: SizedBox(
                               width: 20,
                               height: 20,
-                              child: categoryCubit.favourite ? favouriteIcon : notFavouriteIcon,
+                              child: current.isFavourite ? favouriteIcon : notFavouriteIcon,
                             ),
                             iconSize: 20,
                           ),
@@ -116,7 +154,7 @@ class TheMostPopularWidget extends StatelessWidget {
                         height: 30,
                         width: 35,
                         decoration: BoxDecoration(
-                          color: categoryCubit.onTheCart? AppColors.green: AppColors.red,
+                          color: current.isOnTheCart ? AppColors.green : AppColors.gray,
                           // color: AppColors.primaryColor,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10),
@@ -129,8 +167,8 @@ class TheMostPopularWidget extends StatelessWidget {
                             categoryCubit.toggleCart(current, context);
                           },
                           icon:
-                          // categoryCubit.onTheCart? onTheCartIcon: notOnTheCartIcon,
-                          const Icon(
+                              // categoryCubit.onTheCart? onTheCartIcon: notOnTheCartIcon,
+                              const Icon(
                             Icons.add_shopping_cart_sharp,
                             color: AppColors.offwhite,
                           ),
@@ -150,6 +188,15 @@ class TheMostPopularWidget extends StatelessWidget {
 }
 
 var notFavouriteIcon = const Icon(Icons.favorite_outline_sharp);
-var favouriteIcon = const Icon(Icons.favorite,color: AppColors.red,);
-var notOnTheCartIcon = const Icon(Icons.add_shopping_cart_sharp,color: AppColors.red,);
-var onTheCartIcon = const Icon(Icons.add_shopping_cart_sharp,color: AppColors.green,);
+var favouriteIcon = const Icon(
+  Icons.favorite,
+  color: AppColors.red,
+);
+var notOnTheCartIcon = const Icon(
+  Icons.add_shopping_cart_sharp,
+  color: AppColors.primaryColor,
+);
+var onTheCartIcon = const Icon(
+  Icons.add_shopping_cart_sharp,
+  color: AppColors.green,
+);

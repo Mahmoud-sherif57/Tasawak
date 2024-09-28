@@ -3,14 +3,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasawak/view/screens/auth/signup_screen.dart';
-import 'package:tasawak/view/screens/wrapper_home_screen/wrapper_home_screen.dart';
 import 'package:tasawak/view_model/cubits/auth/auth_cubit.dart';
 import 'package:tasawak/view_model/cubits/auth/auth_state.dart';
 import 'package:tasawak/view_model/utils/app_colors.dart';
 import 'package:tasawak/view_model/utils/app_functions.dart';
 import 'package:tasawak/view_model/utils/reusable_widgets/reusabel_auth_button.dart';
 import 'package:tasawak/view_model/utils/reusable_widgets/reusable_text_form_field.dart';
-
 import '../wrapper_home_screen/wrapper_screen2.dart';
 import 'forgot_password_screen.dart';
 
@@ -35,7 +33,7 @@ class LogInScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       backgroundColor: Colors.green,
-                      duration: Duration(seconds: 3),
+                      duration: Duration(seconds: 1),
                       content: Text(" Successfully Logged in"),
                     ),
                   );

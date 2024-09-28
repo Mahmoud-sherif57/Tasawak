@@ -6,16 +6,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tasawak/view/screens/splash/splash_screen.dart';
 import 'package:tasawak/view_model/cubits/auth/auth_cubit.dart';
 import 'package:tasawak/view_model/cubits/categories/category_cubit.dart';
+import 'package:tasawak/view_model/cubits/home/home_screen_cubit.dart';
 import 'firebase_options.dart';
 import 'view_model/utils/app_theme.dart';
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   // await SharedHelper.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.android,
   );
+
 
   runApp(
     const Tasawak(),
@@ -37,7 +40,10 @@ class Tasawak extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => AuthCubit(),
+              create: (context) => AuthCubit()..getUserDataFromFirestore(),
+            ),
+            BlocProvider(
+              create: (context) => HomeScreenCubit(),
             ),
             // BlocProvider(
             //   create: (context) => SplashCubit()..appStarted(),

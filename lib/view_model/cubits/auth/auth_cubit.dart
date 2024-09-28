@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tasawak/model/auth/user_data.dart';
 import 'package:tasawak/view_model/cubits/auth/auth_state.dart';
 import 'package:tasawak/view_model/helpers/firebase/firebase_keys.dart';
-
+import '../../../view/screens/auth/login_screen.dart';
+import '../../utils/app_functions.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(InitialAuthState());
@@ -16,11 +18,15 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   bool hidden = true;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth fireAuth = FirebaseAuth.instance;
   // making a controllers to catch what the user write in the textFormField .,
+
+  // List<QueryDocumentSnapshot>  userDataList =[]; // with the QueryDocument
+  List userDataList = []; // with the single document
 
   /// -------------------registerFireBase------------------->
   Future<void> registerFireBase() async {
@@ -39,11 +45,11 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   /// -------------------signOutFirebase----------------------->
-  Future<void> signOutFirebase() async {
+  Future<void> signOutFirebase(BuildContext context) async {
     emit(SigningOutLoadingState());
     await fireAuth.signOut().then((value) {
       emit(SigningOutSuccessfulState());
-      // AppFunctions.navigateTo(context, LogInScreen());
+      AppFunctions.navigateTo(context, LogInScreen());
     }).catchError((error) {
       SigningOutErrorState('something went wrong in sign out${error.toString()}');
     });
@@ -86,10 +92,20 @@ class AuthCubit extends Cubit<AuthState> {
       email: fireAuth.currentUser?.email,
       name: fireAuth.currentUser?.displayName,
       phoneNumber: phoneController.text,
+      address: addressController.text,
+      myImage: AuthCubit().myImage?.path,
     );
     await firestore.collection(FirebaseKeys.users).doc(fireAuth.currentUser?.email).set(
           userData.toJson(),
         );
+  }
+
+  /// ----------------------update user information--------------------->
+  Future<void> updateUserInfo() async {
+    await fireAuth.currentUser?.updatePassword(passwordController.text);
+    await fireAuth.currentUser?.updatePhoneNumber(phoneController as PhoneAuthCredential);
+    await fireAuth.currentUser?.updatePhotoURL(AuthCubit().myImage?.path);
+    await fireAuth.currentUser?.updateDisplayName(nameController.text);
   }
 
   /// --------------------clearControllers-------------------->
@@ -99,14 +115,7 @@ class AuthCubit extends Cubit<AuthState> {
     phoneController.clear();
     emailController.clear();
     passwordController.clear();
-  }
-
-  /// ----------------------update user information--------------------->
-  Future<void> updateUserInfo() async {
-    await fireAuth.currentUser?.updatePassword(passwordController.text);
-    await fireAuth.currentUser?.updatePhoneNumber(phoneController as PhoneAuthCredential);
-    await fireAuth.currentUser?.updatePhotoURL('get the new photo url from image picker');
-    await fireAuth.currentUser?.updateDisplayName(nameController.text);
+    addressController.clear();
   }
 
   /// ----------------------delete user--------------------->
@@ -119,26 +128,41 @@ class AuthCubit extends Cubit<AuthState> {
     hidden = !hidden;
     emit(TogglePasswordState());
   }
-// end of (togglePassword Function) .
-//
-//   Future<void> signUpFirebase(UserDataModel user) async {
-//     try {
-//       final userData = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-//           email: emailController.text.trim(), password: passwordController.text.trim());
-//
-//       print(userData.user?.email);
-//       print(userData.user?.uid);
-//   await saveUserToFirestore();
-//
-//     } on FirebaseAuthException catch (e) {
-//       if (e.code == 'weak-password') {
-//
-//         print('The password provided is too weak.');
-//       } else if (e.code == 'email-already-in-use') {
-//         print('The account already exists for that email.');
-//       }
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
+
+  ///--------------imagePicker--------->
+  XFile? myImage;
+  final ImagePicker picker = ImagePicker();
+  Future<XFile?> pickImageFromGallery() async {
+    myImage = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    if (myImage != null) {
+      emit(PickImageState());
+      return myImage;
+    }
+    return null;
+  }
+
+  /// ----------------get user data from firestore-------------->
+
+  // void getUserDataFromFirestore() async{
+  //   QuerySnapshot querySnapshot = await firestore.collection("users").doc(emailController.text).get();
+  //   userDataList.addAll(querySnapshot.docs);
+  //   // print(userDataList[5]);
+  //   // print(userDataList.length);
+  // }
+
+  void getUserDataFromFirestore() async {
+    DocumentSnapshot documentSnapshot = await firestore
+        .collection("users")
+        .doc(
+          fireAuth.currentUser?.email,
+        ) // we increased .doc(the user email) to get single
+        .get();
+
+    if (documentSnapshot.exists) {
+      userDataList.add(documentSnapshot.data());
+      print(userDataList.length);
+    } else {
+      print("No user data found for this email.");
+    }
+  }
 }
