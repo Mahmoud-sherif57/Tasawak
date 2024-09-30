@@ -13,6 +13,8 @@ class CategoryCubit extends Cubit<CategoryState> {
   bool isLanguageSwitched = false;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth fireAuth = FirebaseAuth.instance;
+  TextEditingController searchController =TextEditingController ();
+
 
   // bool favourite = false;
   // bool onTheCart = false;

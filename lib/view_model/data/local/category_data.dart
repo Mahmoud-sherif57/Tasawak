@@ -137,6 +137,6 @@ List<BaseModel> mainListData = [
   ),
 ];
 
+
 List<BaseModel> itemsOnSearch = [];
-List<BaseModel> itemsOnFavourite = [];
 List<String> sizesList = ["S", "M", "L", "XL", "XXL"];
