@@ -7,6 +7,7 @@ import 'package:tasawak/view/screens/splash/splash_screen.dart';
 import 'package:tasawak/view_model/cubits/auth/auth_cubit.dart';
 import 'package:tasawak/view_model/cubits/categories/category_cubit.dart';
 import 'package:tasawak/view_model/cubits/home/home_screen_cubit.dart';
+import 'package:tasawak/view_model/cubits/search/search_cubit.dart';
 import 'firebase_options.dart';
 import 'view_model/utils/app_theme.dart';
 
@@ -44,6 +45,9 @@ class Tasawak extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => HomeScreenCubit(),
+            ),
+            BlocProvider(
+              create: (context) => SearchCubit(),
             ),
             // BlocProvider(
             //   create: (context) => SplashCubit()..appStarted(),
