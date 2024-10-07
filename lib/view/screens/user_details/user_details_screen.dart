@@ -1,8 +1,11 @@
 import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasawak/view_model/cubits/auth/auth_cubit.dart';
+import 'package:tasawak/view_model/data/local/hive.dart';
 import 'package:tasawak/view_model/utils/app_colors.dart';
 import '../../../view_model/cubits/auth/auth_state.dart';
 
@@ -22,8 +25,7 @@ class UserDetails extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {},
+      body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.only(top: 30),
@@ -44,8 +46,9 @@ class UserDetails extends StatelessWidget {
                               ),
                             )
                           : CircleAvatar(
-                              backgroundImage:
-                                  authCubit.myImage != null ? FileImage(File(authCubit.myImage!.path)) : null,
+                              backgroundImage: FileImage(File(authCubit.getUserImage().toString())),
+                              // FileImage(File(myBox?.get("myImage")??"")),
+                              //     authCubit.myImage != null ? FileImage(File(authCubit.myImage!.path)) : null,
                               backgroundColor: AppColors.primaryColor2,
                               radius: 80,
                             ),
@@ -81,11 +84,11 @@ class UserDetails extends StatelessWidget {
                     title: const Text(" Name : "),
                     textColor: AppColors.primaryColor2,
                     subtitle: Text(
-                      authCubit.userDataList.isNotEmpty
-                          ? authCubit.userDataList.last['name']
-                          : "xxxxxxxx xxxxxxxxx",
-                      // FirebaseAuth.instance.currentUser?.displayName ?? "xxxxxxxx xxxxxx",
-                      overflow: TextOverflow.ellipsis,
+                      //to get data from Hive
+                      // myBox?.get("name") ??""
+                      authCubit.userDataList.isNotEmpty ? authCubit.userDataList.last['name'] : "",
+                      // FirebaseAuth.instance.currentUser?.displayName ?? "",
+                      // overflow: TextOverflow.ellipsis,
                     ),
                     trailing: IconButton(
                       color: AppColors.primaryColor2,
@@ -107,11 +110,13 @@ class UserDetails extends StatelessWidget {
                     title: const Text(" Email :"),
                     textColor: AppColors.primaryColor2,
                     subtitle: Text(
+                      //to get data from Hive
+                      //   myBox?.get("email") ??""
                       authCubit.userDataList.isNotEmpty
                           ? authCubit.userDataList.last['email']
-                          : "xxxxxxxx xxxxxxxxx",
-                      // FirebaseAuth.instance.currentUser?.email ?? "xxxxxxxxxxxxx@xxxx.com",
-                      overflow: TextOverflow.ellipsis,
+                          : "",
+                      // FirebaseAuth.instance.currentUser?.email ?? "",
+                      // overflow: TextOverflow.ellipsis,
                     ),
                     trailing: IconButton(
                       color: AppColors.primaryColor2,
@@ -133,11 +138,11 @@ class UserDetails extends StatelessWidget {
                     title: const Text(" Phone :"),
                     textColor: AppColors.primaryColor2,
                     subtitle: Text(
-                      authCubit.userDataList.isNotEmpty
-                          ? authCubit.userDataList.last['phoneNumber']
-                          : "xxxxxxxx xxxxxxxxx",
-                      // AuthCubit.get(context).phoneController.text,
-                      overflow: TextOverflow.ellipsis,
+                      //to get data from Hive
+                      //   myBox?.get("phoneNumber") ??""
+                      authCubit.userDataList.isNotEmpty ? authCubit.userDataList.last['phoneNumber'] : " ",
+                      // // AuthCubit.get(context).phoneController.text,
+                      // overflow: TextOverflow.ellipsis,
                     ),
                     trailing: IconButton(
                       color: AppColors.primaryColor2,
@@ -159,9 +164,9 @@ class UserDetails extends StatelessWidget {
                     title: const Text(" Address :"),
                     textColor: AppColors.primaryColor2,
                     subtitle: Text(
-                      authCubit.userDataList.isNotEmpty
-                          ? authCubit.userDataList.last['address']
-                          : "xxxxxxxx xxxxxxxxx",
+                      //to get data from Hive
+                      //   myBox?.get("address") ??""
+                      authCubit.userDataList.isNotEmpty ? authCubit.userDataList.last['address'] : "",
                       overflow: TextOverflow.ellipsis,
                     ),
                     trailing: IconButton(

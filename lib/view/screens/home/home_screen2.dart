@@ -48,7 +48,9 @@ class HomeScreen extends StatelessWidget {
                                   TextSpan(
                                     text: " Style",
                                     style: theme.headlineLarge?.copyWith(
-                                        color: AppColors.primaryColor, fontSize: 45, fontWeight: FontWeight.bold),
+                                        color: AppColors.primaryColor,
+                                        fontSize: 45,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
@@ -70,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
 
-                    ///-----------------start the circleAvatar category section---------------->
+                    ///-----------start the circleAvatar category section------------>
                     FadeInUp(
                       duration: const Duration(milliseconds: 450),
                       child: Container(
@@ -123,7 +125,7 @@ class HomeScreen extends StatelessWidget {
                           physics: const BouncingScrollPhysics(),
                           itemCount: mainListData.length,
                           onPageChanged: (index) {
-                            cubit.changePage(index);     //  change the page
+                            cubit.changePage(index); //  change the page
                           },
                           itemBuilder: (context, index) {
                             return InkWell(
@@ -136,7 +138,24 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: cardViewAnimation(context, index, theme, size),
+                              child: AnimatedBuilder(
+                                animation: cubit.controller,
+                                builder: (context, child) {
+                                  double value = 0;
+                                  if (cubit.controller.position.haveDimensions) {
+                                    value = index.toDouble() - (cubit.controller.page ?? 0);
+                                    value = (value * 0.04).clamp(-1, 1);
+                                  }
+                                  return Transform.rotate(
+                                    angle: 8 * value,
+                                    child: CardViewWidget(
+                                      size: size,
+                                      data: mainListData[index],
+                                      theme: theme,
+                                    ),
+                                  );
+                                },
+                              ),
                             );
                           },
                         ),
@@ -151,14 +170,16 @@ class HomeScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Most Popular', style: theme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                            Text('Most Popular',
+                                style: theme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),
                     ),
 
                     ///-----------------start the most popular section---------------->
-                    FadeInUp(duration: const Duration(milliseconds: 750), child: const TheMostPopularWidget()),
+                    FadeInUp(
+                        duration: const Duration(milliseconds: 750), child: const TheMostPopularWidget()),
                   ],
                 ),
               ),
@@ -166,28 +187,6 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
-    );
-  }
-          ///----------------------start the cardView animation----------------------->
-  Widget cardViewAnimation(BuildContext context, int index, TextTheme theme, Size size) {
-    var cubit = context.read<HomeScreenCubit>();
-    return AnimatedBuilder(
-      animation: cubit.controller,
-      builder: (context, child) {
-        double value = 0;
-        if (cubit.controller.position.haveDimensions) {
-          value = index.toDouble() - (cubit.controller.page ?? 0);
-          value = (value * 0.04).clamp(-1, 1);
-        }
-        return Transform.rotate(
-          angle: 8 * value,
-          child: CardViewWidget(
-            size: size,
-            data: mainListData[index],
-            theme: theme,
-          ),
-        );
-      },
     );
   }
 }

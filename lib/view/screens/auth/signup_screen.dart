@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +41,8 @@ class SignupScreen extends StatelessWidget {
               listener: (context, state) {
                 if (state is RegisterSuccessfulState) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
+                    const
+                    SnackBar(
                       backgroundColor: Colors.green,
                       duration: Duration(seconds: 3),
                       content: Text(" Successfully signed up"),
@@ -50,13 +50,32 @@ class SignupScreen extends StatelessWidget {
                   );
                   AppFunctions.navigateTo(context, LogInScreen());
                 } else if (state is RegisterErrorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      duration: const Duration(seconds: 3),
-                      content: Text("Failed to sign up${state.message}"),
+                  showDialog(
+                    context: context,
+                    builder: (context) => FadeInUp(
+                      delay: const Duration(milliseconds: 50),
+                      child: AlertDialog(
+                        title: const Text('Failed'),
+                        contentPadding: const EdgeInsets.all(20),
+                        content:  Text("Failed to sign up ${state.message}"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                AppFunctions.navigatePop(context);
+                              },
+                              child: const Text('OK')),
+
+                        ],
+                      ),
                     ),
                   );
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     backgroundColor: Colors.red,
+                  //     duration: const Duration(seconds: 3),
+                  //     content: Text("Failed to sign up${state.message}"),
+                  //   ),
+                  // );
                 }
               },
               builder: (context, state) {
@@ -83,20 +102,21 @@ class SignupScreen extends StatelessWidget {
                           children: [
                             authCubit.myImage == null
                                 ? CircleAvatar(
-                              backgroundColor: AppColors.primaryColor2,
-                              radius: 50,
-                              child: Icon(
-                                Icons.person,
-                                size: size.height * 0.06,
-                                color: AppColors.primaryColor,
-                              ),
-                            )
+                                    backgroundColor: AppColors.primaryColor2,
+                                    radius: 50,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: size.height * 0.06,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  )
                                 : CircleAvatar(
-                              backgroundImage:
-                              authCubit.myImage != null ? FileImage(File(authCubit.myImage!.path)) : null,
-                              backgroundColor: AppColors.primaryColor2,
-                              radius: 50,
-                            ),
+                                    backgroundImage: authCubit.myImage != null
+                                        ? FileImage(File(authCubit.myImage!.path))
+                                        : null,
+                                    backgroundColor: AppColors.primaryColor2,
+                                    radius: 50,
+                                  ),
                             Positioned(
                               left: size.height * 0.07,
                               top: size.height * 0.075,

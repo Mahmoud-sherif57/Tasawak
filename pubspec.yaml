@@ -38,7 +38,6 @@ dependencies:
   easy_localization: ^3.0.7
   flutter_bloc: ^8.1.6
   flutter_screenutil: ^5.9.3
-  shared_preferences: ^2.3.2
 #  firebase_auth: ^4.16.0 //default
   firebase_auth: ^5.2.0
   firebase_storage: ^12.2.0
@@ -53,9 +52,14 @@ dependencies:
   animate_do: ^3.3.4
   curved_navigation_bar: ^1.0.6
   image_picker: ^1.1.2
+  hive: ^2.2.3
+  hive_flutter:
+  path_provider: ^2.1.4
 
 
 dev_dependencies:
+  hive_generator:
+  build_runner:
   flutter_test:
     sdk: flutter
 

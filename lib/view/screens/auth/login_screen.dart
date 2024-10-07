@@ -37,15 +37,33 @@ class LogInScreen extends StatelessWidget {
                       content: Text(" Successfully Logged in"),
                     ),
                   );
-
+                  // to get the user data to show in the userDetails if he switched to another account
+                  AuthCubit.get(context).getUserDataFromFirestore();
                   AppFunctions.navigateTo(context, const WrapperHomeScreen2());
                 } else if (state is LoggingErrorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text("Failed to Log in${state.message}"),
-                    ),
+                  showDialog(context: context, builder: (context)=>FadeInUp(
+                     delay: const Duration(milliseconds: 50),
+                      child: AlertDialog(
+                        title: const Text('Failed'),
+                        contentPadding: const EdgeInsets.all(20),
+                        content:  Text("Failed to LogIn ${state.message}"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                AppFunctions.navigatePop(context);
+                              },
+                              child: const Text('OK')),
+
+                        ],
+                      ),
+                  ),
                   );
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     backgroundColor: Colors.red,
+                  //     content: Text("Failed to Log in${state.message}"),
+                  //   ),
+                  // );
                 }
               },
               builder: (context, state) {
@@ -56,6 +74,7 @@ class LogInScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        ///--------making the login text----->
                         FadeInUp(
                           delay: const Duration(milliseconds: 100),
                           child: Align(
@@ -66,7 +85,7 @@ class LogInScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: size.height * 0.05),
-                        // start making the email field...
+                                ///--------making the email field----->
                         ReusableTextFormField(
                           hintText: 'Enter Your E-mail',
                           labelText: 'E-mail',
@@ -89,7 +108,7 @@ class LogInScreen extends StatelessWidget {
                           height: size.height * 0.03,
                         ),
 
-                        //making the password field...
+                        ///--------making the password field----->
                         FadeInUp(
                           delay: const Duration(milliseconds: 300),
                           child: TextFormField(
@@ -137,7 +156,7 @@ class LogInScreen extends StatelessWidget {
                         SizedBox(
                           height: size.height * 0.02,
                         ),
-
+                        ///--------making the forgot password field----->
                         FadeInUp(
                           delay: const Duration(milliseconds: 400),
                           child: Align(
@@ -168,19 +187,10 @@ class LogInScreen extends StatelessWidget {
                           ),
                         ),
 
-                        // FadeInUp(
-                        //   delay: const Duration(milliseconds: 400),
-                        //   child: Text(
-                        //     "Did you forgot your password ?",
-                        //     style: theme.bodyMedium
-                        //         ?.copyWith(color: AppColors.darkGray),
-                        //   ),
-                        // ),
-
                         SizedBox(
                           height: size.height * 0.1,
                         ),
-
+                        ///--------making the login button------->
                         Visibility(
                           visible: state is LoggingLoadingState,
                           replacement: FadeInUp(
@@ -206,6 +216,7 @@ class LogInScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
+                        ///--------making the create account button----->
                         FadeInUp(
                           delay: const Duration(milliseconds: 600),
                           child: Align(

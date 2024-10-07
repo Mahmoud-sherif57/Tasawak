@@ -20,7 +20,12 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 4),
       () async {
         AppFunctions.navigateTo(context, const AuthScreen());
-          AuthCubit.get(context).getUserDataFromFirestore();  // to get the user data everyTime the user open the app
+          // AuthCubit.get(context).getUserInfoFromHive();
+          AuthCubit.get(context).getUserDataFromFirestore();
+          // to get the user data everyTime the user open the app
+
+
+
         //   const storage = FlutterSecureStorage();
         //   // we called the flutterSecureStorage to see if we have the (token) skip loginScreen and go to HomeScreen..
         //   String? value = await storage.read(key: SharedKeys.token);

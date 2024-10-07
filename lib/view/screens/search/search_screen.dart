@@ -16,21 +16,7 @@ import 'package:tasawak/view_model/utils/reusable_widgets/reusable_rich_text.dar
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
-  // late TextEditingController _controller;
 
-  // bool isElementFound = false;
-
-  // void initState() {
-  //   _controller = TextEditingController();
-  //   itemsOnSearch = mainListData;
-  //   super.initState();
-  // }
-  //
-  // onSearchFunction(String search) {
-  //   setState(() {
-  //     itemsOnSearch = mainListData.where((element) => element.name.toLowerCase().contains(search)).toList();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +52,7 @@ class SearchScreen extends StatelessWidget {
                             height: size.height * 0.06,
                             child: TextFormField(
                               controller: searchCubit.searchController,
-                              // controller: _controller,
                               onChanged: (value) => searchCubit.onSearch(value),
-                              // onChanged: (value) => onSearchFunction(value),
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                                 fillColor: AppColors.offwhite,
@@ -87,13 +71,6 @@ class SearchScreen extends StatelessWidget {
                                 suffixIcon: IconButton(
                                   onPressed: () {
                                     searchCubit.canselTheSearch();
-                                    // setState(() {
-                                    //   _controller.clear();
-                                    //   setState(() {
-                                    //     itemsOnSearch = mainListData;
-                                    //   });
-                                    // }
-                                    // );
                                   },
                                   icon: const Icon(Icons.close),
                                 ),
@@ -136,18 +113,15 @@ class SearchScreen extends StatelessWidget {
                                             top: size.height * 0.02,
                                             left: size.width * 0.01,
                                             right: size.width * 0.01,
-                                            child: Hero(
-                                              tag: current.id,
-                                              child: Container(
-                                                width: size.width * 0.5,
-                                                height: size.height * 0.28,
-                                                margin: const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  image: DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: AssetImage(current.imageUrl),
-                                                  ),
+                                            child: Container(
+                                              width: size.width * 0.5,
+                                              height: size.height * 0.28,
+                                              margin: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15),
+                                                image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: AssetImage(current.imageUrl),
                                                 ),
                                               ),
                                             ),
