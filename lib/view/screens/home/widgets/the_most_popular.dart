@@ -40,19 +40,19 @@ class TheMostPopularWidget extends StatelessWidget {
               mode: Mode.ADVANCE,
             ).show(context);
           }
-          else if (state is RemovedFromTheCartState){
-            const AdvanceSnackBar(
-              bgColor: AppColors.green,
-              duration: Duration(seconds: 1),
-              message: "Removed from the the cart",
-              mode: Mode.ADVANCE,
-            ).show(context);
-          }
           else if (state is AddedToTheCartState){
             const AdvanceSnackBar(
               bgColor: AppColors.green,
               duration: Duration(seconds: 1),
               message: "Successfully added to the cart",
+              mode: Mode.ADVANCE,
+            ).show(context);
+          }
+          else if (state is RemovedFromTheCartState){
+            const AdvanceSnackBar(
+              bgColor: AppColors.green,
+              duration: Duration(seconds: 1),
+              message: "Removed from the the cart",
               mode: Mode.ADVANCE,
             ).show(context);
           }

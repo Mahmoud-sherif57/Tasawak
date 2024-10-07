@@ -23,7 +23,7 @@ class CardViewWidget extends StatelessWidget {
       child: Column(
         children: [
           Hero(
-            tag: "",
+            tag: data.id,
             child: Container(
               width: size.width * 0.6, //0.6
               height: size.height * 0.24, //27
